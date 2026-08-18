@@ -1,0 +1,26 @@
+{
+  "model_name": "Random Forest (fallback)",
+  "feature_names": [
+    "male",
+    "age",
+    "education",
+    "currentSmoker",
+    "cigsPerDay",
+    "BPMeds",
+    "prevalentStroke",
+    "prevalentHyp",
+    "diabetes",
+    "totChol",
+    "sysBP",
+    "diaBP",
+    "BMI",
+    "heartRate",
+    "glucose"
+  ],
+  "test_accuracy": 0.8466981132075472,
+  "test_roc_auc": 0.6515617082295609,
+  "best_hyperparameters": {
+    "classifier__max_depth": null,
+    "classifier__n_estimators": 100
+  }
+}

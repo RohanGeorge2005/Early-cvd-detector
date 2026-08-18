@@ -1,0 +1,28 @@
+{
+  "model_name": "XGBoost",
+  "feature_names": [
+    "male",
+    "age",
+    "education",
+    "currentSmoker",
+    "cigsPerDay",
+    "BPMeds",
+    "prevalentStroke",
+    "prevalentHyp",
+    "diabetes",
+    "totChol",
+    "sysBP",
+    "diaBP",
+    "BMI",
+    "heartRate",
+    "glucose"
+  ],
+  "cv_accuracy": 0.8517088725828804,
+  "test_accuracy": 0.8490566037735849,
+  "test_roc_auc": 0.6668176084354884,
+  "best_hyperparameters": {
+    "classifier__learning_rate": 0.03,
+    "classifier__max_depth": 5,
+    "classifier__n_estimators": 100
+  }
+}
