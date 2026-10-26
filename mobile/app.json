@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "XAI-CVD Patient",
+    "slug": "xai-cvd-patient",
+    "scheme": "xaicvdpatient",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "plugins": ["expo-router", "expo-secure-store"],
+    "experiments": { "typedRoutes": true },
+    "ios": { "supportsTablet": true },
+    "android": { "edgeToEdgeEnabled": true }
+  }
+}

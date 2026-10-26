@@ -1,0 +1,10 @@
+import { useState } from "react";
+import { Text, View } from "react-native";
+import * as Sharing from "expo-sharing";
+import * as FileSystem from "expo-file-system/legacy";
+import { Action, Card, Loading, Notice, Page, dateLabel } from "@/components/ui";
+import { usePortalHome } from "@/hooks/use-portal-home";
+import { useAuth } from "@/lib/auth";
+import { mobileApi } from "@/lib/api";
+import { ui } from "@/lib/theme";
+export default function Reports(){const {data,loading,refreshing,error,reload}=usePortalHome();const {token,expireSession}=useAuth();const [busy,setBusy]=useState("");const [problem,setProblem]=useState("");async function open(id:string){if(!token)return;setBusy(id);setProblem("");let uri="";try{uri=await mobileApi.reportPdf(id,token);if(await Sharing.isAvailableAsync())await Sharing.shareAsync(uri,{mimeType:"application/pdf",dialogTitle:"View or save your XAI-CVD report",UTI:"com.adobe.pdf"});else setProblem("This device cannot open the share sheet. Try the report from a supported device.");}catch(e){const message=(e as Error).message;setProblem(message);if(message.includes("session expired"))await expireSession();}finally{if(uri)await FileSystem.deleteAsync(uri,{idempotent:true}).catch(()=>{});setBusy("");}}return <Page title="My reports" subtitle="PDFs released by your care team." refreshing={refreshing} onRefresh={reload}>{loading&&!data?<Loading/>:null}{(error||problem)&&<Notice warning>{error||problem}</Notice>}{data?.reports.map(report=><Card key={report.report_id}><View style={ui.row}><Text style={ui.heading}>Assessment report</Text><Text style={ui.label}>Version {report.version}</Text></View><Text style={ui.text}>{dateLabel(report.created_at)} · Released</Text><Action label={busy===report.report_id?"Preparing PDF…":"View or download PDF"} onPress={()=>open(report.report_id)} disabled={!!busy}/></Card>)}{!loading&&!data?.reports.length&&<Card><Text style={ui.heading}>No reports available</Text><Text style={ui.small}>Released reports from your care team will appear here.</Text></Card>}</Page>;}

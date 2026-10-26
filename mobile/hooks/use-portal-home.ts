@@ -1,0 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
+import { PortalHome, mobileApi } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+export function usePortalHome(){const {token,expireSession}=useAuth();const [data,setData]=useState<PortalHome|null>(null);const [loading,setLoading]=useState(true);const [refreshing,setRefreshing]=useState(false);const [error,setError]=useState("");const load=useCallback(async(pull=false)=>{if(!token)return;pull?setRefreshing(true):setLoading(true);setError("");try{setData(await mobileApi.home(token));}catch(e){const message=(e as Error).message;setError(message);if(message.includes("session expired"))await expireSession();}finally{setLoading(false);setRefreshing(false);}},[token,expireSession]);useEffect(()=>{void load();},[load]);return {data,loading,refreshing,error,reload:()=>load(true)};}
